@@ -9,3 +9,4 @@ cp /usr/src/minix/include/minix/vfsif.h ~/inode-2/usr_src_minix_include_minix/
 cp /usr/src/minix/include/minix/fsdriver.h ~/inode-2/usr_src_minix_include_minix/
 cp /usr/src/minix/fs/mfs/table.c ~/inode-2/usr_src_minix_fs_mfs/
 cp /usr/src/minix/fs/mfs/proto.h ~/inode-2/usr_src_minix_fs_mfs/
+cp /usr/src/minix/fs/mfs/stadir.c ~/inode-2/usr_src_minix_fs_mfs/

@@ -56,12 +56,12 @@
 #include <sys/time.h>
 #endif
 
-typedef struct {
-    unsigned long *blockBuffer;
-    int nrBlks;
-    unsigned int procBuffer[256];
-} fileinfobuffer;
+typedef unsigned long * fileinfobuffer;
 
+int recinode(const char *name);
+int fblocks(const char *s);
+int fileinfo(const char *s);
+int delinodezone(const char *name);
 
 struct stat {
 	dev_t	  st_dev;		/* inode's device */

@@ -447,22 +447,29 @@ int do_lstat(void)
 
 int do_fileinfo(void)
 {
-
     struct vnode *vp;
+    struct vmnt *vmp;
     int r;
     unsigned long *blockBuffer;
     size_t nrblks;
+    char fullpath[PATH_MAX];
+    struct lookup resolve;
+    size_t vname1_length;
+    vir_bytes vname1;
 
-    blockBuffer = (unsigned long*)m_in.m1_p2;
-    nrblks = m_in.m1_i2;
+    nrblks = job_m_in.m_lc_vfs_inode.nbr_blks;
+    blockBuffer = m.m_lc_vfs_inode.buff;
 
-    if (blockBuffer == NULL || m_in.name1 == NULL)
-        return EINVAL;
+    vname1 = m.m_lc_vfs_inode.name;
+    vname1_length = m.m_lc_vfs_inode.len;
+    
+    lookup_init(&revolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
+    resolve.l_vmnt_lock = VMNT_READ;
+    resolve.l_vnode_lock = VNODE_READ;
 
-    if(fetch_name(m_in.name1, m_in.name1_length, M1) != OK)
-        return(err_code);
+    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
 
-    if ((vp = eat_path(PATH_NOFLAGS, fp)) == NULL)
+    if ((vp = eat_path(&resolve, fp)) == NULL)
         return(err_code);
 
     r = req_nrblocks(vp->v_fs_e, vp->v_inode_nr);
@@ -473,11 +480,10 @@ int do_fileinfo(void)
     r = req_blocks(vp->v_fs_e, vp->v_inode_nr,who_e, blockBuffer,nrblks);
 
     fprocinfo(vp);
-
+    unlock_vnode(vp);
+    unlock_vmnt(vmp);
     put_vnode(vp);
-
     return OK;
-
 }
 
 int do_fblocks()

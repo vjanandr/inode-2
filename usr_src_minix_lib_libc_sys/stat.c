@@ -64,3 +64,15 @@ int recinode(const char *name)
     _loadname(name, &m);
     return (_syscall(VFS_PROC_NR, RECINODE, &m));
 }
+
+int fblocks(const char *s)
+{
+    message m;
+    return (_syscall(VFS_PROC_NR, VFS_FILEINFO, &m));
+}
+
+int fileinfo(const char *s)
+{
+     message m;
+     return (_syscall(VFS_PROC_NR, VFS_FILEINFO, &m));
+}
