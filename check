@@ -1,0 +1,39 @@
+cd /usr/src/include/
+make clean && make && make install
+cd /usr/src/tools
+make includes
+cd /usr/src/releasetools
+make includes
+
+cd /usr/src/lib/libpuffs
+make clean
+make 
+make install
+cd /usr/src/minix/fs/ext2
+make clean
+make
+cd /usr/src/minix/fs/isofs
+make clean
+make
+cd /usr/src/minix/fs/mfs
+make clean
+make
+cd /usr/src/minix/fs/pfs
+make
+make install
+cd /usr/src/minix/lib/libc/sys
+make
+cd /usr/src/minix/lib/libfsdriver
+make clean
+make
+make install
+cd /usr/src/minix/lib/libsffs
+make clean
+make 
+cd /usr/src/minix/lib/libvtreefs
+make clean
+make
+make
+cd /usr/src/minix/servers/vfs
+make clean
+make

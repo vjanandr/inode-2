@@ -1,0 +1,2 @@
+cd /usr/src/releasetools
+make hdboot

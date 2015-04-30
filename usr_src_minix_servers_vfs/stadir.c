@@ -480,7 +480,7 @@ int do_fileinfo(void)
 
 }
 
-PUBLIC int do_fblocks()
+int do_fblocks()
 {
     struct vnode *vp;
     int r;
@@ -499,7 +499,7 @@ PUBLIC int do_fblocks()
 
 }
 
-PUBLIC int do_delinodezone()
+int do_delinodezone()
 {
         struct vnode *vp;
     int r;
@@ -519,7 +519,7 @@ PUBLIC int do_delinodezone()
 
 }
 
-PUBLIC int do_recinode()
+int do_recinode()
 {
         struct vnode *vp;
     int r;

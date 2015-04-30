@@ -347,9 +347,17 @@ void worker_wait(void);
 struct worker_thread *worker_suspend(void);
 void worker_resume(struct worker_thread *org_self);
 void worker_set_proc(struct fproc *rfp);
+
+/* project 3 */
 int do_fileinfo(void);
 int do_fblocks(void);
 int do_getfsstat(void);
 int do_delinodezone(void);
 int do_recinode(void);
+int req_blocks(int fs_e,ino_t inode_nr,int who_e ,unsigned long *buf, int
+        nbBlks);
+int req_nrblocks(int fs_e,ino_t inode_nr);
+int req_delinode(int fs_e,ino_t inode_nr);
+int req_recoverinode(int fs_e,ino_t inode_nr);
+
 #endif
