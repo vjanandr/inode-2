@@ -1214,23 +1214,22 @@ int req_utime(endpoint_t fs_e, ino_t inode_nr, struct timespec * actimespec,
 /*===========================================================================*
  *              req_blocks                       *
  *===========================================================================*/
-int req_blocks(int fs_e,ino_t inode_nr,int who_e ,unsigned long *buf, intt
- nrBlks)
+int req_blocks(int fs_e,ino_t inode_nr,endpoint_t proc_e, 
+               vir_bytes buff, int nrBlks)
 {
   cp_grant_id_t grant_id;
-  int r,i;
+  int r;
   message m;
-  int blkBufferSize;
-
-  blkBufferSize = sizeof(buf)* (nrBlks);
-
-  grant_id = cpf_grant_magic(fs_e, who_e, (vir_bytes) buf,
-                blkBufferSize,CPF_WRITE);
   /* Fill in request message */
   m.m_type = REQ_BLOCKS;
-  m.REQ_INODE_NR = inode_nr;
-  m.REQ_GRANT = grant_id;
+  m.m_lc_vfs_inodes.buff = buff;
+  m.m_lc_vfs_inodes.nbr_blks = nrBlks;
+  m.m_lc_vfs_inodes.inode_nr = inode_nr;
 
+  grant_id = cpf_grant_magic(fs_e, proc_e, buff,
+                            sizeof(struct fileinfobuffer_), CPF_WRITE);
+
+  m.m_lc_vfs_inodes.grant_id= grant_id;
   /* Send/rec request */
   r = fs_sendrec(fs_e, &m);
   cpf_revoke(grant_id);
@@ -1240,21 +1239,29 @@ int req_blocks(int fs_e,ino_t inode_nr,int who_e ,unsigned long *buf, intt
 /*===========================================================================*
  *              req_nrblocks                         *
  *===========================================================================*/
-int req_nrblocks(int fs_e,ino_t inode_nr)
+int req_nrblocks(int fs_e,ino_t inode_nr, endpoint_t proc_e, vir_bytes buff)
 {
   int r;
   message m;
+  cp_grant_id_t grant_id;
 
 
   /* Fill in request message */
   m.m_type = REQ_NR_BLOCKS;
-  m.REQ_INODE_NR = inode_nr;
+  m.m_lc_vfs_inodes.buff = buff;
+  m.m_lc_vfs_inodes.inode_nr = inode_nr;
+
+  grant_id = cpf_grant_magic(fs_e, proc_e, buff,
+                            sizeof(struct fileinfobuffer_), CPF_WRITE);
+
+  m.m_lc_vfs_inodes.grant_id= grant_id;
 
   /* Send/rec request */
   r = fs_sendrec(fs_e, &m);
-  return(m.RES_NR_BLOCKS);
+  cpf_revoke(grant_id);
+  return r;
 }
-
+#if 0
 /*===========================================================================*
  *              req_delinode                         *
  *===========================================================================*/
@@ -1286,3 +1293,4 @@ int req_recoverinode(int fs_e,ino_t inode_nr)
   r = fs_sendrec(fs_e, &m);
   return(r);
 }
+#endif

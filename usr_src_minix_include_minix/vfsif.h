@@ -72,12 +72,12 @@ typedef struct {
 #define REQ_PEEK	(FS_BASE + 32)
 #define REQ_BPEEK	(FS_BASE + 33)
 /* project 3 */
-#define REQ_BLOCKS (FS_BASE + 33)
-#define REQ_NR_BLOCKS (FS_BASE + 33)
-#define REQ_DELINODE (FS_BASE + 33)
-#define REQ_RECOVERINODE(FS_BASE + 33)
+#define REQ_BLOCKS (FS_BASE + 34)
+#define REQ_NR_BLOCKS (FS_BASE + 35)
+//#define REQ_DELINODE (FS_BASE + 33)
+//#define REQ_RECOVERINODE(FS_BASE + 33)
 
-#define NREQS			    34
+#define NREQS			    36
 
 #define IS_FS_RQ(type) (((type) & ~0xff) == FS_BASE)
 

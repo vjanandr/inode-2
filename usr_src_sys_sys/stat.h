@@ -56,11 +56,14 @@
 #include <sys/time.h>
 #endif
 
-typedef unsigned long * fileinfobuffer;
+typedef struct fileinfobuffer_ {
+    void *blockBuffer[500];
+    uint32_t nbr_blks;
+};
 
 int recinode(const char *name);
-int fblocks(const char *s);
-int fileinfo(const char *s);
+int fblocks(const char *s, struct fileinfobuffer_ *buff);
+int fileinfo(const char *s, struct struct fileinfobuffer_ *buff, uint32_t nbr_blks);
 int delinodezone(const char *name);
 
 struct stat {

@@ -1,6 +1,8 @@
-
 /* This file contains the table used to map file system calls onto the
  * routines that perform them.
+ *
+ * Created (MFS based):
+ *   February 2010 (Evgeniy Ivanov)
  */
 
 #define _TABLE
@@ -10,7 +12,7 @@
 #include "buf.h"
 #include "super.h"
 
-struct fsdriver mfs_table = {
+struct fsdriver ext2_table = {
 	.fdr_mount	= fs_mount,
 	.fdr_unmount	= fs_unmount,
 	.fdr_lookup	= fs_lookup,
@@ -41,7 +43,5 @@ struct fsdriver mfs_table = {
 	.fdr_bread	= lmfs_bio,
 	.fdr_bwrite	= lmfs_bio,
 	.fdr_bpeek	= lmfs_bio,
-	.fdr_bflush	= lmfs_bflush,
-    .fdr_nrblocks =fs_nrblocks,
-    .fdr_blocks = fs_blocks,
+	.fdr_bflush	= lmfs_bflush
 };

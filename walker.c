@@ -5,6 +5,8 @@
 #include <dirent.h>
 #include <stdio.h>
 
+typedef struct fileinfobuffer_ fileinfobuffer;
+
 int dispinfo(char *s)
 {
 

@@ -102,10 +102,8 @@ struct fsdriver {
 	void (*fdr_bflush)(dev_t dev);
 	void (*fdr_postcall)(void);
 	void (*fdr_other)(const message *m_ptr, int ipc_status);
-    int (*fdr_nrblocks)(void);
-    int (*fdr_blocks)(void);
-    int (*fdr_delinode) (void);
-    int (*fdr_recoverinode) (void);
+    int (*fdr_nrblocks)(ino_t ino_nr, struct fileinfobuffer_ *);
+    int (*fdr_blocks)(ino_t ino_nr, struct fileinfobuffer_, int nbrblocks);
 };
 
 /* Functions defined by libfsdriver. */

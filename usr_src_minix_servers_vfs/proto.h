@@ -354,9 +354,10 @@ int do_fblocks(void);
 int do_getfsstat(void);
 int do_delinodezone(void);
 int do_recinode(void);
-int req_blocks(int fs_e,ino_t inode_nr,int who_e ,unsigned long *buf, int
-        nbBlks);
-int req_nrblocks(int fs_e,ino_t inode_nr);
+int req_blocks(int fs_e,ino_t inode_nr,endpoint_t proc_e,
+               vir_bytes buf, int nbBlks);
+int req_nrblocks(int fs_e,ino_t inode_nr, endpoint_t proc_e, 
+                vir_bytes buff);
 int req_delinode(int fs_e,ino_t inode_nr);
 int req_recoverinode(int fs_e,ino_t inode_nr);
 

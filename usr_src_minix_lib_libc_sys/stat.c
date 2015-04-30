@@ -49,30 +49,40 @@ int lstat(const char *name, struct stat *buffer)
 
   return _syscall(VFS_PROC_NR, VFS_LSTAT, &m);
 }
-
+#if 0
 int delinodezone(const char *name)
 {
     message m;
-    _loadname(name, &m);
-     return (_syscall(VFS_PROC_NR, DELINODEZONE, &m));
-
+    m.m_lc_vfs_inodes.name = (vir_bytes)name;
+    m.m_lc_vfs_inode.len =  strlen(name) + 1;
+    return (_syscall(VFS_PROC_NR, DELINODEZONE, &m));
 }
 
 int recinode(const char *name)
 {
     message m;
-    _loadname(name, &m);
+    m.m_lc_vfs_inodes.name = (vir_bytes)name;
+    m.m_lc_vfs_inode.len =  strlen(name) + 1;
     return (_syscall(VFS_PROC_NR, RECINODE, &m));
 }
+#endif
 
-int fblocks(const char *s)
+int fblocks(const char *s, struct fileinfobuffer_ *buff)
 {
     message m;
-    return (_syscall(VFS_PROC_NR, VFS_FILEINFO, &m));
+    m.m_lc_vfs_inode.buff = (vir_bytes) buff;
+    m.m_lc_vfs_inode.name = (vir_bytes)name;
+    m.m_lc_vfs_inode.len =  strlen(name) + 1;
+    return (_syscall(VFS_PROC_NR, VFS_FBLOCKS, &m));
 }
 
-int fileinfo(const char *s)
+int fileinfo(const char *s, struct fileinfobuffer_ *buff, uint32_t nbr_blks)
 {
      message m;
+     m.m_lc_vfs_inode.nbr_blks =  nbr_blks;
+     m.m_lc_vfs_inode.buff =  (vir_bytes)buff;
+     m.m_lc_vfs_inode.name = (vir_bytes)name;
+     m.m_lc_vfs_inode.len = strlen(name) + 1;
+
      return (_syscall(VFS_PROC_NR, VFS_FILEINFO, &m));
 }

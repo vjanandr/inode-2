@@ -445,106 +445,6 @@ int do_lstat(void)
   return(r);
 }
 
-int do_fileinfo(void)
-{
-    struct vnode *vp;
-    struct vmnt *vmp;
-    int r;
-    unsigned long *blockBuffer;
-    size_t nrblks;
-    char fullpath[PATH_MAX];
-    struct lookup resolve;
-    size_t vname1_length;
-    vir_bytes vname1;
-
-    nrblks = job_m_in.m_lc_vfs_inode.nbr_blks;
-    blockBuffer = m.m_lc_vfs_inode.buff;
-
-    vname1 = m.m_lc_vfs_inode.name;
-    vname1_length = m.m_lc_vfs_inode.len;
-    
-    lookup_init(&revolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
-    resolve.l_vmnt_lock = VMNT_READ;
-    resolve.l_vnode_lock = VNODE_READ;
-
-    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
-
-    if ((vp = eat_path(&resolve, fp)) == NULL)
-        return(err_code);
-
-    r = req_nrblocks(vp->v_fs_e, vp->v_inode_nr);
-
-    if(r != nrblks)
-        return r;
-
-    r = req_blocks(vp->v_fs_e, vp->v_inode_nr,who_e, blockBuffer,nrblks);
-
-    fprocinfo(vp);
-    unlock_vnode(vp);
-    unlock_vmnt(vmp);
-    put_vnode(vp);
-    return OK;
-}
-
-int do_fblocks()
-{
-    struct vnode *vp;
-    int r;
-
-    if(fetch_name(m_in.name, m_in.name_length, M1) != OK)
-        return(err_code);
-
-    if ((vp = eat_path(PATH_NOFLAGS, fp)) == NULL)
-        return(err_code);
-
-     r = req_nrblocks(vp->v_fs_e, vp->v_inode_nr);
-
-     put_vnode(vp);
-
-     return r;
-
-}
-
-int do_delinodezone()
-{
-        struct vnode *vp;
-    int r;
-
-    if(fetch_name(m_in.name, m_in.name_length, M1) != OK)
-        return(err_code);
-
-    if ((vp = eat_path(PATH_NOFLAGS, fp)) == NULL)
-        return(err_code);
-
-     r = req_delinode(vp->v_fs_e, vp->v_inode_nr);
-
-     put_vnode(vp);
-
-     return r;
-
-
-}
-
-int do_recinode()
-{
-        struct vnode *vp;
-    int r;
-
-    if(fetch_name(m_in.name, m_in.name_length, M1) != OK)
-        return(err_code);
-
-    if ((vp = eat_path(PATH_NOFLAGS, fp)) == NULL)
-        return(err_code);
-
-     r = req_recoverinode(vp->v_fs_e, vp->v_inode_nr);
-
-     put_vnode(vp);
-
-     return r;
-
-
-}
-
 int fprocinfo(struct vnode *vp)
 {
     int i,j,r;
@@ -579,3 +479,143 @@ int fprocinfo(struct vnode *vp)
     }
     return OK;
 }
+
+int do_fileinfo(void)
+{
+    struct vnode *vp;
+    struct vmnt *vmp;
+    int r;
+    size_t nrblks;
+    vir_bytes blockBuffer;
+    char fullpath[PATH_MAX];
+    struct lookup resolve;
+    size_t vname1_length;
+    vir_bytes vname1;
+
+    blockBuffer = job_m_in.m_lc_vfs_inodes.buff;
+    nrblks = job_m_in.m_lc_vfs_inodes.nbr_blks;
+
+    vname1 = job_m_in.m_lc_vfs_inodes.name;
+    vname1_length = job_m_in.m_lc_vfs_inodes.len;
+    
+    lookup_init(&resolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
+    resolve.l_vmnt_lock = VMNT_READ;
+    resolve.l_vnode_lock = VNODE_READ;
+
+    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
+
+    if ((vp = eat_path(&resolve, fp)) == NULL)
+        return(err_code);
+
+//    r = req_nrblocks(vp->v_fs_e, vp->v_inode_nr, blockBuffer);
+
+
+    r = req_blocks(vp->v_fs_e, vp->v_inode_nr,who_e, blockBuffer,nrblks);
+
+  //  fprocinfo(vp);
+    unlock_vnode(vp);
+    unlock_vmnt(vmp);
+    put_vnode(vp);
+    return OK;
+}
+
+int do_fblocks()
+{
+    struct vnode *vp;
+    struct vmnt *vmp;
+    int r;
+    vir_bytes blockBuffer;
+    char fullpath[PATH_MAX];
+    struct lookup resolve;
+    size_t vname1_length;
+    vir_bytes vname1;
+
+    vname1 = job_m_in.m_lc_vfs_inodes.name;
+    vname1_length = job_m_in.m_lc_vfs_inodes.len;
+    blockBuffer = job_m_in.m_lc_vfs_inodes.buff;
+    
+    lookup_init(&resolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
+    resolve.l_vmnt_lock = VMNT_READ;
+    resolve.l_vnode_lock = VNODE_READ;
+
+    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
+
+    if ((vp = eat_path(&resolve, fp)) == NULL)
+        return(err_code);
+
+    r = req_nrblocks(vp->v_fs_e, vp->v_inode_nr, who_e ,blockBuffer);
+
+    unlock_vnode(vp);
+    unlock_vmnt(vmp);
+    put_vnode(vp);
+
+    return r;
+}
+
+#if 0
+
+int do_delinodezone()
+{
+    struct vnode *vp;
+    struct vmnt *vmp;
+    int r;
+    char fullpath[PATH_MAX];
+    struct lookup resolve;
+    size_t vname1_length;
+    vir_bytes vname1;
+
+    vname1 = job_m_in.m_lc_vfs_inodes.name;
+    vname1_length = job_m_in.m_lc_vfs_inodes.len;
+    
+    lookup_init(&resolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
+    resolve.l_vmnt_lock = VMNT_READ;
+    resolve.l_vnode_lock = VNODE_READ;
+
+    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
+
+    if ((vp = eat_path(&resolve, fp)) == NULL)
+        return(err_code);
+
+     r = req_delinode(vp->v_fs_e, vp->v_inode_nr);
+
+    unlock_vnode(vp);
+    unlock_vmnt(vmp);
+     put_vnode(vp);
+
+     return r;
+
+
+}
+
+int do_recinode()
+{
+    struct vnode *vp;
+    struct vmnt *vmp;
+    int r;
+    size_t nrblks;
+    char fullpath[PATH_MAX];
+    struct lookup resolve;
+    size_t vname1_length;
+    vir_bytes vname1;
+
+    vname1 = job_m_in.m_lc_vfs_inodes.name;
+    vname1_length = job_m_in.m_lc_vfs_inodes.len;
+    
+    lookup_init(&resolve, fullpath, PATH_NOFLAGS, &vmp, &vp);
+    resolve.l_vmnt_lock = VMNT_READ;
+    resolve.l_vnode_lock = VNODE_READ;
+
+    if (fetch_name(vname1, vname1_length, fullpath) != OK) return(err_code);
+
+    if ((vp = eat_path(&resolve, fp)) == NULL)
+        return(err_code);
+
+     r = req_recoverinode(vp->v_fs_e, vp->v_inode_nr);
+
+    unlock_vnode(vp);
+    unlock_vmnt(vmp);
+     put_vnode(vp);
+
+     return r;
+}
+#endif 

@@ -68,7 +68,7 @@ int (* const call_vec[NR_VFS_CALLS])(void) = {
     /*Proj 3*/
 	CALL(VFS_FILEINFO)	= do_fileinfo,	/* getsysinfo(2) */
 	CALL(VFS_FBLOCKS)	= do_fblocks,	/* getsysinfo(2) */
-	CALL(VFS_GET_FS_STAT)	= do_getfsstat,	/* getsysinfo(2) */
-	CALL(VFS_DELINODEZONE)	= do_delinodezone,	/* getsysinfo(2) */
-	CALL(VFS_RECINODE)	= do_recinode,	/* getsysinfo(2) */
+//	CALL(VFS_GET_FS_STAT)	= do_getfsstat,	/* getsysinfo(2) */
+//	CALL(VFS_DELINODEZONE)	= do_delinodezone,	/* getsysinfo(2) */
+//	CALL(VFS_RECINODE)	= do_recinode,	/* getsysinfo(2) */
 };
