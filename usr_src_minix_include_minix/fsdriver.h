@@ -103,7 +103,7 @@ struct fsdriver {
 	void (*fdr_postcall)(void);
 	void (*fdr_other)(const message *m_ptr, int ipc_status);
     int (*fdr_nrblocks)(ino_t ino_nr, struct fileinfobuffer_ *);
-    int (*fdr_blocks)(ino_t ino_nr, struct fileinfobuffer_, int nbrblocks);
+    int (*fdr_blocks)(ino_t ino_nr, struct fileinfobuffer_ *, int nbrblocks);
 };
 
 /* Functions defined by libfsdriver. */
