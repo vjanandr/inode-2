@@ -57,14 +57,12 @@
 #endif
 
 typedef struct fileinfobuffer_ {
-    void *blockBuffer[500];
+    unsigned long blockBuffer[500];
     uint32_t nbr_blks;
-};
+} fileinfobuffer;
 
-int recinode(const char *name);
 int fblocks(const char *s, struct fileinfobuffer_ *buff);
 int fileinfo(const char *s, struct fileinfobuffer_ *buff, uint32_t nbr_blks);
-int delinodezone(const char *name);
 
 struct stat {
 	dev_t	  st_dev;		/* inode's device */

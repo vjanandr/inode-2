@@ -4,6 +4,7 @@
 struct stat;
 struct statvfs;
 struct timespec;
+struct fileinfobuffer_;
 
 /* Resulting node properties. */
 struct fsdriver_node {

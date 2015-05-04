@@ -1,0 +1,6 @@
+cd /usr/src/include/
+make clean && make && make install
+cd /usr/src/tools
+make includes
+cd /usr/src/releasetools
+make includes

@@ -10,6 +10,11 @@
 #include "buf.h"
 #include "super.h"
 
+int fs_nrblocks_1(ino_t a,  struct fileinfobuffer_ * b) 
+{
+    return 0;
+}
+
 struct fsdriver mfs_table = {
 	.fdr_mount	= fs_mount,
 	.fdr_unmount	= fs_unmount,

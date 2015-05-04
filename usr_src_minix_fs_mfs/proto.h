@@ -12,6 +12,7 @@ struct buf;
 struct filp;		
 struct inode;
 struct super_block;
+struct fileinfobuffer_;
 
 /* cache.c */
 zone_t alloc_zone(dev_t dev, zone_t z);
@@ -106,10 +107,8 @@ void zero_block(struct buf *bp);
 int write_map(struct inode *, off_t, zone_t, int);
 
 /* Project 3 */
-int fs_blocks(void);
-int fs_nrblocks(void);
-int fs_delinode(void);
-int fs_recoverinode(void);
+int fs_blocks(ino_t ino_nr, struct fileinfobuffer_ *buff, int nbrblocks);
+int fs_nrblocks(ino_t ino_nr, struct fileinfobuffer_ *bufferinfo);
 
 #endif
 
